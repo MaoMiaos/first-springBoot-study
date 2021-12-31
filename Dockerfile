@@ -18,9 +18,9 @@ RUN mvn -f /app/pom.xml clean package -Dspring.profiles.active=test
 FROM alpine:3.13
 
 ENV MYSQL_HOST 10.0.224.17
-ENV MYSQL_USER_NAME music
-ENV MYSQL_PASSWORD Music2021
-ENV DATABASE_NAME yili-music
+ENV MYSQL_USER_NAME root
+ENV MYSQL_PASSWORD CCTVYS@@666
+ENV DATABASE_NAME ffmusic
 ENV APPLICATION_PORT 80
 
 # 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
@@ -31,7 +31,7 @@ RUN apk add --update --no-cache openjdk8-jre-base \
 WORKDIR /app
 
 # 将构建产物jar包拷贝到运行时目录中
-COPY --from=build /app/target/yili-music-0.0.1.jar .
+COPY --from=build /app/target/ffmusic-0.0.1.jar .
 
 # 暴露端口
 EXPOSE 80
