@@ -1,12 +1,12 @@
-package com.ffmsic.entity;
+package com.ffmusic.entity;
 
-import com.ffmsic.enums.Gender;
+import com.ffmusic.enums.Gender;
 import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.*;
-import javax.persistence.Id;
+
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +15,7 @@ import java.util.List;
 //data自动创建gettersetter
 public class User extends AbstractEntity{
 
+    @Column(unique = true)
     private String username;
 
     private String nickname;
@@ -29,9 +30,9 @@ public class User extends AbstractEntity{
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Boolean locked = false;
+    private Boolean locked;
 
-    private Boolean enabled = true;
+    private Boolean enabled;
 
     private String lastLoginIp;
 

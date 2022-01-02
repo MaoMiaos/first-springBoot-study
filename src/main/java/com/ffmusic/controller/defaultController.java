@@ -1,7 +1,7 @@
-package com.ffmsic.controller;
+package com.ffmusic.controller;
 
 
-import com.ffmsic.entity.User;
+import com.ffmusic.entity.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

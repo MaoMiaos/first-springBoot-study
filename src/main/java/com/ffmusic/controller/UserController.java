@@ -1,8 +1,8 @@
-package com.ffmsic.controller;
+package com.ffmusic.controller;
 
-import com.ffmsic.mapper.UserMapper;
-import com.ffmsic.service.UserService;
-import com.ffmsic.vo.UserVo;
+import com.ffmusic.mapper.UserMapper;
+import com.ffmusic.service.UserService;
+import com.ffmusic.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

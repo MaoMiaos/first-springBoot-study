@@ -1,4 +1,4 @@
-package com.ffmsic.enums;
+package com.ffmusic.enums;
 
 public enum Gender {
     FEMALE,

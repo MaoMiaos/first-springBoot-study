@@ -1,4 +1,4 @@
-package com.ffmsic;
+package com.ffmusic;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

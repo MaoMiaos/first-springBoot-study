@@ -1,4 +1,4 @@
-package com.ffmsic.vo;
+package com.ffmusic.vo;
 
 import lombok.Data;
 

@@ -1,8 +1,8 @@
-package com.ffmsic.service;
+package com.ffmusic.service;
 
-import com.ffmsic.dto.UserDto;
-import com.ffmsic.mapper.UserMapper;
-import com.ffmsic.repository.UserRepository;
+import com.ffmusic.dto.UserDto;
+import com.ffmusic.mapper.UserMapper;
+import com.ffmusic.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

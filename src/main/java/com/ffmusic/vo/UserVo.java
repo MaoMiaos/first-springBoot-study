@@ -1,12 +1,11 @@
-package com.ffmsic.dto;
+package com.ffmusic.vo;
 
-import com.ffmsic.vo.RoleVo;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class UserDto {
+public class UserVo {
     private String id;
 
     private String username;
