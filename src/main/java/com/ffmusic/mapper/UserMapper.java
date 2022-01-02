@@ -1,8 +1,8 @@
-package com.ffmsic.mapper;
+package com.ffmusic.mapper;
 
-import com.ffmsic.dto.UserDto;
-import com.ffmsic.entity.User;
-import com.ffmsic.vo.UserVo;
+import com.ffmusic.dto.UserDto;
+import com.ffmusic.entity.User;
+import com.ffmusic.vo.UserVo;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 

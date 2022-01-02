@@ -1,4 +1,4 @@
-package com.ffmsic.dto;
+package com.ffmusic.dto;
 
 import lombok.Data;
 

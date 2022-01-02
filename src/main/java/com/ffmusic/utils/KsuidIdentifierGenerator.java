@@ -1,4 +1,4 @@
-package com.ffmsic.utils;
+package com.ffmusic.utils;
 
 import com.github.ksuid.KsuidGenerator;
 import org.hibernate.HibernateException;
@@ -11,6 +11,9 @@ public class KsuidIdentifierGenerator implements IdentifierGenerator {
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {
-        return KsuidGenerator.generate();
+        String ksuid = KsuidGenerator.generate();
+        System.out.println(ksuid);
+        return ksuid;
     }
 }
+

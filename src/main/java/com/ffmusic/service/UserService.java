@@ -1,6 +1,6 @@
-package com.ffmsic.service;
+package com.ffmusic.service;
 
-import com.ffmsic.dto.UserDto;
+import com.ffmusic.dto.UserDto;
 import java.util.List;
 
 

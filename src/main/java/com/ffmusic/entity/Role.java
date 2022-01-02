@@ -1,4 +1,4 @@
-package com.ffmsic.entity;
+package com.ffmusic.entity;
 
 import lombok.Data;
 
