@@ -1,5 +1,6 @@
 package com.ffmusic.mapper;
 
+import com.ffmusic.dto.UserCreateDto;
 import com.ffmusic.dto.UserDto;
 import com.ffmusic.entity.User;
 import com.ffmusic.vo.UserVo;
@@ -13,4 +14,6 @@ public interface UserMapper {
     UserDto toDto(User user);
 
     UserVo toVo(UserDto userDto);
+
+    User createEntity(UserCreateDto userCreateDto);
 }
