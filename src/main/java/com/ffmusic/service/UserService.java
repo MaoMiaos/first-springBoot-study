@@ -1,21 +1,27 @@
 package com.ffmusic.service;
 
-import com.ffmusic.dto.UserCreateDto;
+import com.ffmusic.dto.UserCreateRequest;
 import com.ffmusic.dto.UserDto;
+import com.ffmusic.dto.UserUpdateRequest;
 import com.ffmusic.entity.User;
-import com.ffmusic.vo.UserVo;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-
-import java.util.List;
 
 
 public interface UserService extends UserDetailsService {
-    List<UserDto> list();
 
-    UserDto create(UserCreateDto userCreateDto);
+    UserDto create(UserCreateRequest userCreateRequest);
 
     @Override
     User loadUserByUsername(String username) ;
+
+    UserDto get(String id);
+
+    UserDto update(String id, UserUpdateRequest userupdaterequest);
+
+    void delete(String id);
+
+    Page<UserDto> search(Pageable pageable);
+
 }

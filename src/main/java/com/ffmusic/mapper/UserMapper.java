@@ -1,10 +1,12 @@
 package com.ffmusic.mapper;
 
-import com.ffmusic.dto.UserCreateDto;
+import com.ffmusic.dto.UserCreateRequest;
 import com.ffmusic.dto.UserDto;
+import com.ffmusic.dto.UserUpdateRequest;
 import com.ffmusic.entity.User;
 import com.ffmusic.vo.UserVo;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
@@ -15,5 +17,7 @@ public interface UserMapper {
 
     UserVo toVo(UserDto userDto);
 
-    User createEntity(UserCreateDto userCreateDto);
+    User createEntity(UserCreateRequest userCreateRequest);
+
+    User updateEntity(@MappingTarget User user, UserUpdateRequest userUpdateRequest);
 }
