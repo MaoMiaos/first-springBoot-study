@@ -1,8 +1,9 @@
 package com.ffmusic.dto;
 
-import com.ffmusic.vo.RoleVo;
+import com.ffmusic.enums.Gender;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -13,5 +14,15 @@ public class UserDto {
 
     private String nickname;
 
-    private List<RoleVo> roleVos;
+    private List<RoleDto> roleVos;
+
+    private Gender gender;
+
+    private Boolean locked;
+
+    private Boolean enabled;
+
+    private String lastLoginIp;
+
+    private Date lastLoginTime;
 }
