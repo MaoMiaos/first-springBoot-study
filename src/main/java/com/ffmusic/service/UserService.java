@@ -1,5 +1,6 @@
 package com.ffmusic.service;
 
+import com.ffmusic.dto.TokenCreateRequest;
 import com.ffmusic.dto.UserCreateRequest;
 import com.ffmusic.dto.UserDto;
 import com.ffmusic.dto.UserUpdateRequest;
@@ -24,4 +25,7 @@ public interface UserService extends UserDetailsService {
 
     Page<UserDto> search(Pageable pageable);
 
+    String createToken(TokenCreateRequest createRequest);
+
+    UserDto getCurrentUser();
 }
