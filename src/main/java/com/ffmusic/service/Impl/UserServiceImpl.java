@@ -1,5 +1,9 @@
 package com.ffmusic.service.Impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.ffmusic.config.SecurityConfig;
+import com.ffmusic.dto.TokenCreateRequest;
 import com.ffmusic.dto.UserCreateRequest;
 import com.ffmusic.dto.UserDto;
 import com.ffmusic.dto.UserUpdateRequest;
@@ -12,9 +16,14 @@ import com.ffmusic.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
@@ -67,6 +76,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable).map(userMapper::toDto);
     }
 
+
+
     @Override
     public User loadUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
@@ -74,7 +85,32 @@ public class UserServiceImpl implements UserService {
         if(!user.isPresent()){ throw new BizException(ExceptionType.USER_NOT_FOUND); }
         return user.get();
     }
+    @Override
+    public String createToken(TokenCreateRequest tokenCreateRequest) {
+        User user = loadUserByUsername(tokenCreateRequest.getUsername());
+        if(!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())){
+            throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
+        }
+        if(!user.isEnabled()){
+            throw new BizException(ExceptionType.USER_NOT_ENABLED);
+        }
+        if(!user.isAccountNonLocked()){
+            throw new BizException(ExceptionType.USER_LOCKED);
+        }
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword(),new ArrayList<>());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConfig.EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SecurityConfig.SECRET.getBytes()));
+    }
 
+    @Override
+    public UserDto getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = loadUserByUsername(authentication.getName());
+        return userMapper.toDto(currentUser);
+    }
 
 
     private void checkUsername(String username){
