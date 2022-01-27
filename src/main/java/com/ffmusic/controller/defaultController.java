@@ -14,6 +14,6 @@ public class defaultController {
     @GetMapping
     public String hello(){
         User user = new User();
-        return "欢迎使用ffMusic";
+        return "欢迎使用ffMusicc";
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class UserController {
 
     @GetMapping("/")
     @ApiOperation("用户检索")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     Page<UserVo> search(@PageableDefault(sort = {"createdTime"}, direction = Sort.Direction.ASC) Pageable pageable) {
         return userService.search(pageable).map(userMapper::toVo);
     }
@@ -55,6 +56,10 @@ public class UserController {
     UserVo me(){
         return userMapper
         .toVo(userService.getCurrentUser());
+    }
+
+    public String MpLogin(String openId){
+        return null;
     }
 
     //提供set方法.当需要useService时再去进行注入操作
