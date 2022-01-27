@@ -13,5 +13,4 @@ class FfMusicApplicationTests {
         String encode = encoder.encode("123456");
         System.out.println(encode);
     }
-
 }
