@@ -3,6 +3,8 @@ package com.ffmusic.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.ffmusic.config.SecurityConfig;
+import com.ffmusic.entity.User;
+import com.ffmusic.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +15,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 /**
  * 自定义JWT认证过滤器
  * 该类继承自BasicAuthenticationFilter，在doFilterInternal方法中，
@@ -23,13 +24,16 @@ import java.util.ArrayList;
  */
 public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
 
-    public JwtAuthorizationFilter(AuthenticationManager authenticationManager) {
+    UserService userService;
+    public JwtAuthorizationFilter(AuthenticationManager authenticationManager, UserService userService) {
         super(authenticationManager);
+        this.userService = userService;
     }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String header = request.getHeader(SecurityConfig.HEADER_STRING);
+
         if (header == null || !header.startsWith(SecurityConfig.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
@@ -47,7 +51,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                     .verify(header.replace(SecurityConfig.TOKEN_PREFIX, ""))
                     .getSubject();
             if (username != null) {
-                return new UsernamePasswordAuthenticationToken(username, null, new ArrayList<>());
+                User user = userService.loadUserByUsername(username);
+                return new UsernamePasswordAuthenticationToken(username, null, user.getAuthorities());
             }
         }
         return null;

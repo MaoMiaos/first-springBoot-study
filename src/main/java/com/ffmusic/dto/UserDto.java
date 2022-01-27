@@ -14,7 +14,7 @@ public class UserDto {
 
     private String nickname;
 
-    private List<RoleDto> roleVos;
+    private List<RoleDto> roles;
 
     private Gender gender;
 

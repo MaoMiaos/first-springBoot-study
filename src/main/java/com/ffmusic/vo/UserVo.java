@@ -19,5 +19,5 @@ public class UserVo {
 
     private boolean enabled;
 
-    private List<RoleVo> roleVos;
+    private List<RoleVo> roles;
 }
