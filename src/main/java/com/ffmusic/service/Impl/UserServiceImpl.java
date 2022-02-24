@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -41,6 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userMapper.toDto(userRepository.save(user));
     }
+
     @Override
     public UserDto get(String id) {
         // Todo: 重构
@@ -48,7 +50,7 @@ public class UserServiceImpl implements UserService {
         if (!user.isPresent()) {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
-       return userMapper.toDto(user.get());
+        return userMapper.toDto(user.get());
     }
 
     @Override
@@ -58,7 +60,7 @@ public class UserServiceImpl implements UserService {
         if (!user.isPresent()) {
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
-        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(),userupdaterequest)));
+        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(), userupdaterequest)));
     }
 
     @Override
@@ -77,27 +79,29 @@ public class UserServiceImpl implements UserService {
     }
 
 
-
     @Override
     public User loadUserByUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        System.out.println("load方法"+user.toString());
-        if(!user.isPresent()){ throw new BizException(ExceptionType.USER_NOT_FOUND); }
+        System.out.println("load方法" + user.toString());
+        if (!user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NOT_FOUND);
+        }
         return user.get();
     }
+
     @Override
     public String createToken(TokenCreateRequest tokenCreateRequest) {
         User user = loadUserByUsername(tokenCreateRequest.getUsername());
-        if(!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())){
+        if (!passwordEncoder.matches(tokenCreateRequest.getPassword(), user.getPassword())) {
             throw new BizException(ExceptionType.USER_PASSWORD_NOT_MATCH);
         }
-        if(!user.isEnabled()){
+        if (!user.isEnabled()) {
             throw new BizException(ExceptionType.USER_NOT_ENABLED);
         }
-        if(!user.isAccountNonLocked()){
+        if (!user.isAccountNonLocked()) {
             throw new BizException(ExceptionType.USER_LOCKED);
         }
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user.getUsername(),user.getPassword(),new ArrayList<>());
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword(), new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         return JWT.create()
                 .withSubject(user.getUsername())
@@ -113,10 +117,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private void checkUsername(String username){
+    private void checkUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
-        if(user.isPresent()){ throw new BizException(ExceptionType.USER_NAME_DUPLICATE); }
+        if (user.isPresent()) {
+            throw new BizException(ExceptionType.USER_NAME_DUPLICATE);
+        }
     }
+
     @Autowired
     public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;

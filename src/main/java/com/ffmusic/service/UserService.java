@@ -15,7 +15,7 @@ public interface UserService extends UserDetailsService {
     UserDto create(UserCreateRequest userCreateRequest);
 
     @Override
-    User loadUserByUsername(String username) ;
+    User loadUserByUsername(String username);
 
     UserDto get(String id);
 

@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/tokens")
 public class TokenController {
     UserService userService;
+
     @PostMapping
-    public String create(@RequestBody TokenCreateRequest tokenCreateRequest){
+    public String create(@RequestBody TokenCreateRequest tokenCreateRequest) {
         return userService.createToken(tokenCreateRequest);
     }
 

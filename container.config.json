@@ -8,8 +8,8 @@
   "policyThreshold": 60,
   "envParams": {},
   "customLogs": "stdout",
-  "dataBaseName":"ffmusic",
-  "executeSQLs":[
+  "dataBaseName": "ffmusic",
+  "executeSQLs": [
     "CREATE DATABASE IF NOT EXISTS ffmusic;"
   ]
 }

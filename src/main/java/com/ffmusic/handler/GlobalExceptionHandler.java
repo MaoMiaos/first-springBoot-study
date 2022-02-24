@@ -3,16 +3,19 @@ package com.ffmusic.handler;
 import com.ffmusic.exception.BizException;
 import com.ffmusic.exception.ErrorResponse;
 import com.ffmusic.exception.ExceptionType;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.security.access.AccessDeniedException;
 
 import java.util.ArrayList;
 import java.util.List;
+
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = BizException.class)
@@ -23,6 +26,7 @@ public class GlobalExceptionHandler {
         errorResponse.setCode(e.getCode());
         errorResponse.setMessage(e.getMessage());
         errorResponse.setTrace(e.getStackTrace());
+        log.error(e.getMessage());
         return errorResponse;
     }
 
@@ -34,6 +38,8 @@ public class GlobalExceptionHandler {
         errorResponse.setCode(ExceptionType.INNER_ERROR.getCode());
         System.out.println(e.toString());
         errorResponse.setMessage(ExceptionType.INNER_ERROR.getMessage());
+        e.printStackTrace();
+        log.error(e.getMessage());
         return errorResponse;
     }
 
@@ -45,6 +51,8 @@ public class GlobalExceptionHandler {
         System.out.println(e.toString());
         errorResponse.setCode(ExceptionType.FORBIDDEN.getCode());
         errorResponse.setMessage(ExceptionType.FORBIDDEN.getMessage());
+        e.printStackTrace();
+        log.error(e.getMessage());
         return errorResponse;
     }
 
@@ -58,6 +66,7 @@ public class GlobalExceptionHandler {
             errorResponse.setCode(ExceptionType.BAD_REQUEST.getCode());
             errorResponse.setMessage(error.getDefaultMessage());
             errorResponses.add(errorResponse);
+            log.error(error.getDefaultMessage());
         });
         return errorResponses;
     }

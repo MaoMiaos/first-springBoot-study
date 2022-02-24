@@ -23,29 +23,31 @@ public class MusicController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public MusicVo create(@Validated @RequestBody MusicCreateRequest musicCreateRequest){
+    public MusicVo create(@Validated @RequestBody MusicCreateRequest musicCreateRequest) {
         return musicMapper.toVo(musicService.create(musicCreateRequest));
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public MusicVo update(@PathVariable String id, @Validated @RequestBody MusicUpdateRequest musicUpdateRequest){
-        return musicMapper.toVo(musicService.update(id,musicUpdateRequest));
+    public MusicVo update(@PathVariable String id, @Validated @RequestBody MusicUpdateRequest musicUpdateRequest) {
+        return musicMapper.toVo(musicService.update(id, musicUpdateRequest));
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<MusicVo> list(){
+    public List<MusicVo> list() {
         return musicService.list().stream().map(musicMapper::toVo).collect(Collectors.toList());
     }
 
     @PostMapping("/{id}/publish")
-    public void publish(String id){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void publish(@PathVariable String id) {
         musicService.publish(id);
     }
 
     @PostMapping("/{id}/close")
-    public void close(String id){
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void close(@PathVariable String id) {
         musicService.close(id);
     }
 

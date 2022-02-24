@@ -31,9 +31,9 @@ public class MusicServiceImpl implements MusicService {
         return musicMapper.toDto(musicRepository.save(music));
     }
 
-    private Music getMusic(String id){
+    private Music getMusic(String id) {
         Optional<Music> musicOptional = musicRepository.findById(id);
-        if(!musicOptional.isPresent()){
+        if (!musicOptional.isPresent()) {
             throw new BizException(ExceptionType.MUSIC_NOT_FOUND);
         }
         return musicOptional.get();
@@ -42,7 +42,7 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public MusicDto update(String id, MusicUpdateRequest musicUpdateRequest) {
         Music exitMusic = getMusic(id);
-        Music music = musicMapper.updateEntity(exitMusic,musicUpdateRequest);
+        Music music = musicMapper.updateEntity(exitMusic, musicUpdateRequest);
         return musicMapper.toDto(musicRepository.save(music));
     }
 
@@ -61,7 +61,7 @@ public class MusicServiceImpl implements MusicService {
 
     @Override
     public void close(String id) {
-        Music music  =getMusic(id);
+        Music music = getMusic(id);
         music.setStatus(MusicStatus.CLOSED);
         musicRepository.save(music);
     }

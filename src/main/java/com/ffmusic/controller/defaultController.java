@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 public class defaultController {
     @GetMapping
-    public String hello(){
+    public String hello() {
         User user = new User();
         return "欢迎使用ffMusic";
     }

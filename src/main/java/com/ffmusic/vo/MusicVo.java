@@ -1,14 +1,11 @@
 package com.ffmusic.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ffmusic.entity.File;
 import com.ffmusic.enums.MusicStatus;
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
-public class MusicVo {
-    private String id;
+public class MusicVo extends BaseVo {
 
     private String name;
 
@@ -16,9 +13,5 @@ public class MusicVo {
 
     private String description;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
-    private Date createdTime;
-
-    @JsonFormat(timezone = "GMT+8", pattern = "yyyyMMddHHmmss")
-    private Date updatedTime;
+    private File file;
 }

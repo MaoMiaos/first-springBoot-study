@@ -10,7 +10,7 @@ public interface MusicService {
 
     MusicDto create(MusicCreateRequest musicCreateRequest);
 
-    MusicDto update(String id,MusicUpdateRequest musicUpdateRequest);
+    MusicDto update(String id, MusicUpdateRequest musicUpdateRequest);
 
     List<MusicDto> list();
 

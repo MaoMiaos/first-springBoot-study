@@ -16,7 +16,7 @@ public class AbstractEntity {
 
     @Id
     @GeneratedValue(generator = "ksuid")
-    @GenericGenerator(name="ksuid", strategy = "com.ffmusic.utils.KsuidIdentifierGenerator")
+    @GenericGenerator(name = "ksuid", strategy = "com.ffmusic.utils.KsuidIdentifierGenerator")
     private String id;
 
     @CreationTimestamp
