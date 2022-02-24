@@ -26,25 +26,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String HEADER_STRING = "Authorization";
     public static final String CREATE_TOKEN_URL = "/tokens";
+    public static final String SITE_SETTINGS_URL = "/settings/**";
 
     //请求取到username和psd用他们形成鉴权，定义鉴权情况，生成令牌
     UserService userService;
     RestAuthenticationEntryPoint restAuthenticationEntryPoint;
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //开启cors跨区域名请求，关闭csrf验证，
-            //users的post请求所有人都可以请求
-            //其他的request都需要鉴权
-            //jwt鉴权用户名密码
-            //jwt鉴权token
-            //把session改成无状态的session
+        //users的post请求所有人都可以请求
+        //其他的request都需要鉴权
+        //jwt鉴权用户名密码
+        //jwt鉴权token
+        //把session改成无状态的session
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(CREATE_TOKEN_URL).permitAll()
-                .antMatchers("/users").permitAll()
+                .antMatchers(CREATE_TOKEN_URL, SITE_SETTINGS_URL, "/playlists").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(),userService))
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))
                 .exceptionHandling()
                 .authenticationEntryPoint(restAuthenticationEntryPoint)
                 .and()
@@ -62,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-       //指定userService是我得
+        //指定userService是我得
         auth.userDetailsService(userService);
 
     }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
 @Entity
 @Data
 //data自动创建gettersetter
@@ -31,9 +32,9 @@ public class User extends AbstractEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Boolean locked  = false;
+    private Boolean locked = false;
 
-    private Boolean enabled =true;
+    private Boolean enabled = true;
 
     private String lastLoginIp;
 

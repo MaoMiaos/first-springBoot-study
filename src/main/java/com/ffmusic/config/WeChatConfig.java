@@ -13,8 +13,10 @@ public class WeChatConfig {
     private String appId;
     @Value("${wexin.mp.app-secret}")
     private String appSecret;
+
+
     @Bean
-    WxMpService wxMpService(){
+    WxMpService wxMpService() {
         WxMpService wxMpService = new WxMpServiceImpl();
         WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
         config.setAppId(appId);

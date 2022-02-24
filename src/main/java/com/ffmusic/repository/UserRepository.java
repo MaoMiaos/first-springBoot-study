@@ -14,5 +14,5 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User getById(String id);
 
-    Page <User> findAll(Pageable pageable);
- }
+    Page<User> findAll(Pageable pageable);
+}

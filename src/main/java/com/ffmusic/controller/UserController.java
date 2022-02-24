@@ -52,13 +52,14 @@ public class UserController {
     void delete(@PathVariable String id) {
         userService.delete(id);
     }
+
     @GetMapping("/me")
-    UserVo me(){
+    UserVo me() {
         return userMapper
-        .toVo(userService.getCurrentUser());
+                .toVo(userService.getCurrentUser());
     }
 
-    public String MpLogin(String openId){
+    public String MpLogin(String openId) {
         return null;
     }
 

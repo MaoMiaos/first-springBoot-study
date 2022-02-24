@@ -6,8 +6,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class UserVo {
-    private String id;
+public class UserVo extends BaseVo {
 
     private String username;
 
