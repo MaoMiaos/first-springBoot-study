@@ -15,6 +15,7 @@ public class Playlist extends AbstractEntity{
     private File cover;
 
     private String description;
+
     @OneToOne
     private User creator;
 
