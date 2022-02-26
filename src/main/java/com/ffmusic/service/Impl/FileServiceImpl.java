@@ -41,7 +41,6 @@ public class FileServiceImpl extends BaseService implements FileService {
         File savedFile = repository.save(file);
         // 通过接口获取STS令牌
         FileUploadDto fileUploadDto = storageServices.get(getDefaultStorage().name()).initFileUpload();
-
         fileUploadDto.setKey(savedFile.getKey());
         fileUploadDto.setFileId(savedFile.getId());
         return fileUploadDto;
@@ -55,7 +54,7 @@ public class FileServiceImpl extends BaseService implements FileService {
         }
         //只有上传者才能给更新finish；权限判断
         File file = fileOptional.get();
-        if(file.getCreatedBy() != getCurrentUserEntity()){
+        if(!file.getCreatedBy().toString().equals(getCurrentUserEntity().toString())){
             throw new BizException(ExceptionType.FILE_NOT_PERMISSION);
         }
         // Todo: 验证远程文件是否存在
@@ -68,7 +67,6 @@ public class FileServiceImpl extends BaseService implements FileService {
     public Storage getDefaultStorage() {
         return Storage.COS;
     }
-
 
     @Autowired
     public void setStorageServices(Map<String, StorageService> storageServices) {
