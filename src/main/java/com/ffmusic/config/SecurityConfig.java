@@ -27,6 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String HEADER_STRING = "Authorization";
     public static final String CREATE_TOKEN_URL = "/tokens";
     public static final String SITE_SETTINGS_URL = "/settings/**";
+    public static final String GET_PLAYLIST_URL = "/playlists/**";
 
     //请求取到username和psd用他们形成鉴权，定义鉴权情况，生成令牌
     UserService userService;
@@ -42,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //把session改成无状态的session
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers(CREATE_TOKEN_URL, SITE_SETTINGS_URL, "/playlists").permitAll()
+                .antMatchers(CREATE_TOKEN_URL, SITE_SETTINGS_URL,GET_PLAYLIST_URL).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilter(new JwtAuthorizationFilter(authenticationManager(), userService))

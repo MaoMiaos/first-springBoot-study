@@ -21,25 +21,26 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class FileServiceImpl implements FileService {
+public class FileServiceImpl extends BaseService implements FileService {
 
     private Map<String, StorageService> storageServices;
 
     private FileRepository repository;
 
-    private FileMapper mapper;
+    private FileMapper fileMapper;
 
     @Override
     @Transactional
     public FileUploadDto initUpload(FileUploadRequest fileUploadRequest) {
         // 创建File实体
-        File file = mapper.createEntity(fileUploadRequest);
+        File file = fileMapper.createEntity(fileUploadRequest);
         file.setType(FileTypeTransformer.getFileTypeFromExt(fileUploadRequest.getExt()));
         file.setStorage(getDefaultStorage());
+        file.setCreatedBy(getCurrentUserEntity());
+        file.setUpdatedBy(getCurrentUserEntity());
         File savedFile = repository.save(file);
         // 通过接口获取STS令牌
         FileUploadDto fileUploadDto = storageServices.get(getDefaultStorage().name()).initFileUpload();
-
         fileUploadDto.setKey(savedFile.getKey());
         fileUploadDto.setFileId(savedFile.getId());
         return fileUploadDto;
@@ -51,20 +52,21 @@ public class FileServiceImpl implements FileService {
         if (!fileOptional.isPresent()) {
             throw new BizException(ExceptionType.FILE_NOT_FOUND);
         }
-        // Todo: 只有上传者才能给更新finish；权限判断
-
+        //只有上传者才能给更新finish；权限判断
+        File file = fileOptional.get();
+        if(!file.getCreatedBy().toString().equals(getCurrentUserEntity().toString())){
+            throw new BizException(ExceptionType.FILE_NOT_PERMISSION);
+        }
         // Todo: 验证远程文件是否存在
 
-        File file = fileOptional.get();
         file.setStatus(FileStatus.UPLOADED);
-        return mapper.toDto(repository.save(file));
+        return fileMapper.toDto(repository.save(file));
     }
 
     // Todo: 后台设置当前Storage
     public Storage getDefaultStorage() {
         return Storage.COS;
     }
-
 
     @Autowired
     public void setStorageServices(Map<String, StorageService> storageServices) {
@@ -77,7 +79,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Autowired
-    public void setMapper(FileMapper mapper) {
-        this.mapper = mapper;
+    public void setMapper( FileMapper fileMapper) {
+        this.fileMapper = fileMapper;
     }
 }

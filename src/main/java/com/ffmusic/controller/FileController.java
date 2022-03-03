@@ -33,6 +33,9 @@ public class FileController {
         return fileMapper.toVo(service.finishUpload(id));
     }
 
+
+
+
     @Autowired
     public void setFileService(FileService fileService) {
         this.service = fileService;

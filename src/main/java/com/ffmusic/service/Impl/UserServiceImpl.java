@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
 
     UserRepository userRepository;
 
@@ -43,34 +42,30 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDto(userRepository.save(user));
     }
 
+
+
     @Override
     public UserDto get(String id) {
         // Todo: 重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return userMapper.toDto(user.get());
+        return userMapper.toDto(getById(id));
     }
 
     @Override
     public UserDto update(String id, UserUpdateRequest userupdaterequest) {
-        //:Todo:重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return userMapper.toDto(userRepository.save(userMapper.updateEntity(user.get(), userupdaterequest)));
+        return userMapper.toDto(userRepository.save(userMapper.updateEntity(getById(id), userupdaterequest)));
     }
 
     @Override
     public void delete(String id) {
-        //:Todo:重构
-        Optional<User> user = userRepository.findById(id);
-        if (!user.isPresent()) {
+        userRepository.delete(getById(id));
+    }
+
+    private User getById(String id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if(!userOptional.isPresent()){
             throw new BizException(ExceptionType.USER_NOT_FOUND);
         }
-        userRepository.delete(user.get());
+        return userOptional.get();
     }
 
     @Override
@@ -78,15 +73,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable).map(userMapper::toDto);
     }
 
-
     @Override
     public User loadUserByUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        System.out.println("load方法" + user.toString());
-        if (!user.isPresent()) {
-            throw new BizException(ExceptionType.USER_NOT_FOUND);
-        }
-        return user.get();
+        return super.loadUserByUsername(username);
     }
 
     @Override
@@ -111,11 +100,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getCurrentUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User currentUser = loadUserByUsername(authentication.getName());
-        return userMapper.toDto(currentUser);
+        return userMapper.toDto(super.getCurrentUserEntity());
     }
-
 
     private void checkUsername(String username) {
         Optional<User> user = userRepository.findByUsername(username);
